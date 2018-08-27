@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ta.emilia.kpsp" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <activity android:name="com.ta.emilia.kpsp.SplashscreenActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.MainActivity"
+            android:label="Menu"/>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.BiodataActivity"
+            android:label="Biodata"/>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.DataActivity"
+            android:label="Daftar Klien"/>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.DataDetailActivity"
+            android:label="Data Klien"/>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.TentangActivity"
+            android:label="Tentang"/>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.KuesionerActivity"
+            android:label="Kuesioner"/>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.HasilActivity"
+            android:label="Hasil"/>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.RincianActivity"
+            android:label="Kuesioner"/>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.LoginActivity"
+            android:label="Kuesioner"/>
+    </application>
+
+</manifest>
