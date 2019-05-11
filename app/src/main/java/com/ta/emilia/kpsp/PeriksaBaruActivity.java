@@ -42,15 +42,14 @@ import java.util.Map;
 /**
  * Created by Toshibha on 02/03/2018.
  */
-public class BiodataActivity extends AppCompatActivity {
+public class PeriksaBaruActivity extends AppCompatActivity {
     private Calendar kalender;
     private int hari, bulan, tahun;
     static final int DATE_DIALOG_LHR = 1;
     static final int DATE_DIALOG_PRK = 2;
 
-    TextView txt_tanggal, txt_tgl_periksa;
-    EditText txt_Nama, txt_Pddk, txt_NamaOrtu, txt_Alamat;
-    Button btnPilihPasien, btnTgl, btnTglPrk, btn_simpan;
+    TextView txt_Nama, txt_tanggal, txt_tgl_periksa;
+    Button btnTglPrk, btn_mulai;
 
     Spinner spPddk, spJenisK, spTujuan;
 
@@ -60,12 +59,15 @@ public class BiodataActivity extends AppCompatActivity {
 
     String tgl_lahir, tgl_periksa;
 
-    private static String url = Config.HOST+"inputbiodata.php";
+    private static String url = Config.HOST+"pemeriksaan_baru.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_biodata);
+        setContentView(R.layout.activity_periksa_baru);
+
+        final String nama = getIntent().getStringExtra("key_nama");
+        final String id_pasien = getIntent().getStringExtra("key_id_pasien");
 
         //buat tombol back di ActionBar
         ActionBar actionBar = getSupportActionBar();
@@ -80,60 +82,8 @@ public class BiodataActivity extends AppCompatActivity {
         NumberFormat f = new DecimalFormat("00");
         tgl_periksa = tahun+"-"+(f.format(bulan+1))+"-"+hari;
 
-        txt_Nama = (EditText) findViewById(R.id.txtNama);
-        //txt_Pddk = (EditText) findViewById(R.id.txtPddk);
-
-        // Spinner Drop down elements
-        List<String> pddk = new ArrayList<String>();
-        pddk.add("Pilih Pendidikan");
-        pddk.add("Belum Sekolah");
-        pddk.add("PAUD");
-        pddk.add("TK");
-
-        // Creating adapter for spinner
-        ArrayAdapter<String> pddkAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, pddk);
-
-        // Drop down layout style - list view with radio button
-        pddkAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spPddk = (Spinner) findViewById(R.id.spPddk);
-        spPddk.setAdapter(pddkAdapter);
-
-        txt_NamaOrtu = (EditText) findViewById(R.id.txtNamaOrtu);
-        txt_Alamat = (EditText) findViewById(R.id.txtAlmt);
-
-        txt_tanggal = (TextView) findViewById(R.id.txtTgl);
-
-        btnPilihPasien = (Button) findViewById(R.id.btnPilihPasien);
-        btnPilihPasien.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BiodataActivity.this, PilihPasienActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btnTgl = (Button) findViewById(R.id.btnTgl);
-        btnTgl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { showDialog(DATE_DIALOG_LHR); }
-        });
-
-        // Spinner Drop down elements
-        List<String> jk = new ArrayList<String>();
-        jk.add("Pilih Jenis Kelamin");
-        jk.add("Laki-laki");
-        jk.add("Perempuan");
-
-        // Creating adapter for spinner
-        ArrayAdapter<String> jkAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, jk);
-
-        // Drop down layout style - list view with radio button
-        jkAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //spinner JK (isi liat di values > string>
-        spJenisK = (Spinner) findViewById(R.id.spJk);
-        spJenisK.setAdapter(jkAdapter);
+        txt_Nama = (TextView) findViewById(R.id.txtNama);
+        txt_Nama.setText(nama);
 
         txt_tgl_periksa = (TextView) findViewById(R.id.txtTgp);
         txt_tgl_periksa.setText(tgl_periksa);
@@ -164,49 +114,33 @@ public class BiodataActivity extends AppCompatActivity {
         spTujuan = (Spinner) findViewById(R.id.spTjn);
         spTujuan.setAdapter(tjAdapter);
 
-        btn_simpan = (Button) findViewById(R.id.btnSimpan);
-        btn_simpan.setOnClickListener(new View.OnClickListener() {
+        btn_mulai = (Button) findViewById(R.id.btnMulai);
+        btn_mulai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String nama = txt_Nama.getText().toString();
-                //tgl_lahir;
-                String jk = String.valueOf(spJenisK.getSelectedItem());
-                String bln = String.valueOf(umur_bulan);
-                String hri = String.valueOf(umur_hari);;
-                //String pddk = txt_Pddk.getText().toString();
-                String pddk = String.valueOf(spPddk.getSelectedItem());
-                String ortu = txt_NamaOrtu.getText().toString();
-                String alamat = txt_Alamat.getText().toString();
-                //tgl_periksa;
                 String tujuan = String.valueOf(spTujuan.getSelectedItem());
-
                 if(spTujuan.getSelectedItemPosition() == 0){
-                    Toast.makeText(BiodataActivity.this, "Mohon pilih tujuan skrinning", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PeriksaBaruActivity.this, "Mohon pilih tujuan skrinning", Toast.LENGTH_SHORT).show();
                 }else{
-                    new prosesDaftar(nama, tgl_lahir, jk, bln, hri, pddk, ortu, alamat, tgl_periksa, tujuan).execute();
+                    new proses(nama, id_pasien, tgl_periksa, tujuan).execute();
                 }
+
             }
         });
 
 
     }
 
-    private class prosesDaftar extends AsyncTask<Void,Void,String> {
+    private class proses extends AsyncTask<Void,Void,String> {
 
         //variabel untuk tangkap data
         private int scs = 0;
-        private String psn, id_pasien, id_periksa;
-        private String nama, tanggal_lhr, jenis_klm, bulan, hari, pddk, nm_ortu, alamat, tanggal_prk, tujuan;
+        private String psn, nama, id_pasien, id_periksa;
+        private String tanggal_prk, tujuan;
 
-        public prosesDaftar(String nama, String tanggal_lhr, String jenis_klm, String bulan, String hari, String pddk, String nm_ortu, String alamat, String tanggal_prk, String tujuan){
+        public proses(String nama, String id_pasien, String tanggal_prk, String tujuan){
             this.nama = nama;
-            this.tanggal_lhr = tanggal_lhr;
-            this.jenis_klm = jenis_klm;
-            this.bulan = bulan;
-            this.hari = hari;
-            this.pddk = pddk;
-            this.nm_ortu = nm_ortu;
-            this.alamat = alamat;
+            this.id_pasien = id_pasien;
             this.tanggal_prk = tanggal_prk;
             this.tujuan = tujuan;
         }
@@ -214,7 +148,7 @@ public class BiodataActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(BiodataActivity.this);
+            pDialog = new ProgressDialog(PeriksaBaruActivity.this);
             pDialog.setMessage("Loading...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -226,14 +160,7 @@ public class BiodataActivity extends AppCompatActivity {
             try{
                 //susun parameter
                 HashMap<String,String> detail = new HashMap<>();
-                detail.put("nama", nama);
-                detail.put("tgl_lahir", tanggal_lhr);
-                detail.put("jk", jenis_klm);
-                detail.put("bulan", bulan);
-                detail.put("hari", hari);
-                detail.put("pddkn", pddk);
-                detail.put("n_ortu", nm_ortu);
-                detail.put("almt", alamat);
+                detail.put("id_pasien", id_pasien);
                 detail.put("tgl_prk", tanggal_prk);
                 detail.put("tujuan", tujuan);
 
@@ -273,7 +200,7 @@ public class BiodataActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             pDialog.dismiss();
             if(scs == 1){
-                Intent intent = new Intent(BiodataActivity.this, KuesionerActivity.class);
+                Intent intent = new Intent(PeriksaBaruActivity.this, KuesionerActivity.class);
                 intent.putExtra("key_id_pasien", id_pasien);
                 intent.putExtra("key_id_periksa", id_periksa);
                 intent.putExtra("key_nama_pasien", nama);
@@ -281,7 +208,7 @@ public class BiodataActivity extends AppCompatActivity {
                 startActivity(intent);
             }
             else{
-                Toast.makeText(BiodataActivity.this, psn, Toast.LENGTH_SHORT).show();
+                Toast.makeText(PeriksaBaruActivity.this, psn, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -308,24 +235,11 @@ public class BiodataActivity extends AppCompatActivity {
     @Deprecated
     protected Dialog onCreateDialog(int id) {
         switch (id) {
-            case DATE_DIALOG_LHR:
-                return new DatePickerDialog(this, datePickerListenerLhr, tahun, bulan, hari);
             case DATE_DIALOG_PRK:
                 return new DatePickerDialog(this, datePickerListenerPrk, tahun, bulan, hari);
         }
         return null;
     }
-
-    private DatePickerDialog.OnDateSetListener datePickerListenerLhr = new DatePickerDialog.OnDateSetListener() {
-        public void onDateSet(DatePicker view, int selectedYear,
-                              int selectedMonth, int selectedDay) {
-            NumberFormat f = new DecimalFormat("00");
-            tgl_lahir = selectedYear + "-" + (f.format(selectedMonth + 1)) + "-" + f.format(selectedDay);
-            //txt_tanggal.setText(tgl_lahir);
-            //lanjut proses umur disini (dalam bulan dan hari)
-            kalkulasikanUmur(tgl_lahir);
-        }
-    };
 
     private DatePickerDialog.OnDateSetListener datePickerListenerPrk = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int selectedYear,
@@ -382,8 +296,7 @@ public class BiodataActivity extends AppCompatActivity {
                 spTujuan.setSelection(3);
             }
             txt_tanggal.setText(tanggal_lahir+", Umur: "+umur_bulan+" bulan, "+umur_hari+" hari");
-            btnTgl.setText(tanggal_lahir);
-            Toast.makeText(BiodataActivity.this, "Umur anak anda " + String.valueOf(umur_bulan) + " Bulan " + String.valueOf(umur_hari) + " Hari", Toast.LENGTH_LONG).show();
+            Toast.makeText(PeriksaBaruActivity.this, "Umur anak anda " + String.valueOf(umur_bulan) + " Bulan " + String.valueOf(umur_hari) + " Hari", Toast.LENGTH_LONG).show();
 
             //Toast.makeText(BiodataActivity.this, "Sekarang tgl: "+df.format(tgl), Toast.LENGTH_SHORT).show();
         } catch (ParseException e) {
@@ -393,7 +306,7 @@ public class BiodataActivity extends AppCompatActivity {
 
     private void dialogBox(String judul, String pesan){
         //ini munculkan dialog box
-        AlertDialog.Builder builder = new AlertDialog.Builder(BiodataActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(PeriksaBaruActivity.this);
         builder.setTitle(judul);
         builder.setMessage(pesan);
         builder.setPositiveButton("Tutup", new DialogInterface.OnClickListener() {

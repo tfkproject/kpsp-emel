@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ta.emilia.kpsp.adapter.AdapterPemeriksaan;
+import com.ta.emilia.kpsp.adapter.AdapterPilihPasien;
 import com.ta.emilia.kpsp.model.ItemPemeriksaan;
 import com.ta.emilia.kpsp.util.Config;
 import com.ta.emilia.kpsp.util.Request;
@@ -34,10 +35,10 @@ import java.util.Map;
 /**
  * Created by Toshibha on 30/03/2018.
  */
-public class DataActivity extends AppCompatActivity {
+public class PilihPasienActivity extends AppCompatActivity {
 
     List<ItemPemeriksaan> items;
-    AdapterPemeriksaan adapter;
+    AdapterPilihPasien adapter;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     private ProgressDialog pDialog;
@@ -67,7 +68,7 @@ public class DataActivity extends AppCompatActivity {
         //new ambilData().execute();
 
         //set adapter
-        adapter = new AdapterPemeriksaan(getApplicationContext(), items);
+        adapter = new AdapterPilihPasien(getApplicationContext(), items);
         recyclerView.setAdapter(adapter);
 
     }
@@ -82,7 +83,7 @@ public class DataActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(DataActivity.this);
+            pDialog = new ProgressDialog(PilihPasienActivity.this);
             pDialog.setMessage("Loading...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -172,16 +173,16 @@ public class DataActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_data, menu);
 
-        SearchManager searchManager = (SearchManager) DataActivity.this.getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) PilihPasienActivity.this.getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_cari).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(DataActivity.this.getComponentName()));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(PilihPasienActivity.this.getComponentName()));
         searchView.setIconifiedByDefault(false);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Intent intent = new Intent(DataActivity.this, DataCariActivity.class);
+                Intent intent = new Intent(PilihPasienActivity.this, PilihPasienCariActivity.class);
                 intent.putExtra("key_pencarian", query);
                 startActivity(intent);
                 return false;

@@ -7,8 +7,9 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cardView"
-        card_view:cardBackgroundColor="#fff"
+        android:layout_marginTop="3dp"
+        android:clickable="true"
+        card_view:cardBackgroundColor="#FFF"
         card_view:cardCornerRadius="5dp"
         card_view:cardUseCompatPadding="true">
 
@@ -16,96 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginBottom="5dp">
-
-                <TextView
-                    android:id="@+id/lblNama"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:text="Nama "/>
-
-                <TextView
-                    android:id="@+id/titik"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=": "/>
-
-                <TextView
-                    android:id="@+id/txt_nama"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:text="Emilia"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginBottom="5dp">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:text="Tanggal Lahir"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=": "/>
-
-                <TextView
-                    android:id="@+id/txt_tgl_lahir"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:text="1 - 1 - 2001"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginBottom="5dp">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:text="Nama Orang Tua"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=": "/>
-
-                <TextView
-                    android:id="@+id/txt_nama_ortu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:text="Atan"/>
-
-            </LinearLayout>
+            android:padding="15dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -116,16 +28,18 @@
 
                 <TextView
                     android:id="@+id/lblTglp"
-                    android:layout_width="100dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:text="Tanggal Pemeriksaan Terakhir"/>
+                    android:text="Tanggal Pemeriksaan"
+                    android:textSize="11dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=": "/>
+                    android:text=": "
+                    android:textSize="11dp"/>
 
                 <TextView
                     android:id="@+id/txt_tgl_periksa"
@@ -133,7 +47,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:text="30 - 03 -2018"/>
+                    android:text="30 - 03 -2018"
+                    android:textSize="11dp"/>
 
             </LinearLayout>
 
@@ -142,34 +57,125 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginBottom="5dp"
-                android:visibility="gone">
+                android:layout_marginBottom="5dp">
 
                 <TextView
-                    android:id="@+id/lblJnsKpsp"
-                    android:layout_width="100dp"
+                    android:id="@+id/lblTjn"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:text="KPSP Ke"/>
+                    android:text="Tujuan"
+                    android:textSize="11dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=": "/>
+                    android:text=": "
+                    android:textSize="11dp"/>
 
                 <TextView
-                    android:id="@+id/txt_kpsp"
+                    android:id="@+id/txt_tujuan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:text="3 Bulan"/>
+                    android:text="Masuk SD"
+                    android:textSize="11dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/lblJnsKpsp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="KPSP Ke"
+                    android:textSize="11dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=": "
+                    android:textSize="11dp"/>
+
+                <TextView
+                    android:id="@+id/txt_kpsp_ke"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="3 Bulan"
+                    android:textSize="11dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/lblHasil"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Hasil"
+                    android:textSize="11dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=": "
+                    android:textSize="11dp"/>
+
+                <TextView
+                    android:id="@+id/txt_hasil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Sesuai"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnPrint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="Print"
+                    android:drawableLeft="@drawable/ic_print_black_24dp"/>
+
+                <Button
+                    android:id="@+id/btnHapus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="Hapus"
+                    android:textColor="@color/colorPrimary"
+                    android:drawableLeft="@drawable/ic_delete_forever_black_24dp"/>
 
             </LinearLayout>
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
 
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>

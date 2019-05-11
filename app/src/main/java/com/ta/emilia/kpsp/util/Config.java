@@ -8,7 +8,7 @@ import android.os.StrictMode;
 
 public class Config {
     //link server
-    public static final String HOST = "http://203.153.21.11/app/kpsp-emel/api/";
+    public static final String HOST = "http://103.111.86.246/app/kpsp-emel/api/";
 
     public void izinNetworkPolicy(){
         //dapatkan  izin untuk melakukan thread policy (proses Background AsycnTask)

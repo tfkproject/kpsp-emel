@@ -134,20 +134,22 @@
                 android:text="Bio"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
-                android:textSize="13dp"/>
+                android:textSize="13dp"
+                android:visibility="gone"/>
             <TextView
                 android:layout_marginLeft="7dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Lahir di Kampung Jawa pada tanggal 28 November 1997, sedang menempuh kuliah pada tahun terakhir di Teknik Informatika Politeknik Negeri Bengkalis."
                 android:textStyle="bold"
-                android:textSize="13dp"/>
+                android:textSize="13dp"
+                android:visibility="gone"/>
             <TextView
                 android:layout_marginLeft="7dp"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CP"
+                android:text="Contact Person"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
                 android:textSize="13dp"/>
@@ -175,14 +177,16 @@ emiliakartika28@gmail.com"
                 android:text="Ucapan Terimakasih Kepada"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
-                android:textSize="13dp"/>
+                android:textSize="13dp"
+                android:visibility="gone"/>
             <TextView
                 android:layout_marginLeft="7dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Bpk jaroji, M.Kom\nIbu eji marlina, M.Psi, Psikolog"
                 android:textStyle="bold"
-                android:textSize="13dp"/>
+                android:textSize="13dp"
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

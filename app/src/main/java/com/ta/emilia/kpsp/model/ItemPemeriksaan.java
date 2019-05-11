@@ -5,10 +5,12 @@ package com.ta.emilia.kpsp.model;
  */
 public class ItemPemeriksaan {
 
-    String id_pemeriksaan, nama, tgl_lahir, jk, pddkn, n_ortu, alamat, tgl_periksa, tujuan, kpsp_ke, hasil;
+//    String id_pemeriksaan, id_pasien, nama, tgl_lahir, jk, pddkn, n_ortu, alamat, tgl_periksa, tujuan, kpsp_ke, hasil;
+    String id_pasien, nama, tgl_lahir, jk, pddkn, n_ortu, alamat, tgl_periksa;
 
-    public ItemPemeriksaan(String id_pemeriksaan, String nama, String tgl_lahir, String jk, String pddkn, String n_ortu, String alamat, String tgl_periksa, String tujuan, String kpsp_ke, String hasil) {
-        this.id_pemeriksaan = id_pemeriksaan;
+    public ItemPemeriksaan(/*String id_pemeriksaan, */String id_pasien, String nama, String tgl_lahir, String jk, String pddkn, String n_ortu, String alamat, String tgl_periksa/*, String tujuan, String kpsp_ke, String hasil*/) {
+//        this.id_pemeriksaan = id_pemeriksaan;
+        this.id_pasien = id_pasien;
         this.nama = nama;
         this.tgl_lahir = tgl_lahir;
         this.jk = jk;
@@ -16,14 +18,16 @@ public class ItemPemeriksaan {
         this.n_ortu = n_ortu;
         this.alamat = alamat;
         this.tgl_periksa = tgl_periksa;
-        this.tujuan = tujuan;
-        this.kpsp_ke = kpsp_ke;
-        this.hasil = hasil;
+//        this.tujuan = tujuan;
+//        this.kpsp_ke = kpsp_ke;
+//        this.hasil = hasil;
     }
 
-    public String getId_pemeriksaan() {
-        return id_pemeriksaan;
-    }
+//    public String getId_pemeriksaan() {
+//        return id_pemeriksaan;
+//    }
+
+    public String getId_pasien(){return id_pasien;}
 
     public String getNama() {
         return nama;
@@ -52,16 +56,16 @@ public class ItemPemeriksaan {
     public String getTgl_periksa() {
         return tgl_periksa;
     }
-
-    public String getTujuan() {
-        return tujuan;
-    }
-
-    public String getKpsp_ke() {
-        return kpsp_ke;
-    }
-
-    public String getHasil() {
-        return hasil;
-    }
+//
+//    public String getTujuan() {
+//        return tujuan;
+//    }
+//
+//    public String getKpsp_ke() {
+//        return kpsp_ke;
+//    }
+//
+//    public String getHasil() {
+//        return hasil;
+//    }
 }

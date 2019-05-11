@@ -36,6 +36,11 @@
 
         <activity
             android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.DataCariActivity"
+            android:label="Daftar Klien"/>
+
+        <activity
+            android:screenOrientation="portrait"
             android:name="com.ta.emilia.kpsp.DataDetailActivity"
             android:label="Data Klien"/>
 
@@ -63,6 +68,21 @@
             android:screenOrientation="portrait"
             android:name="com.ta.emilia.kpsp.LoginActivity"
             android:label="Kuesioner"/>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.PilihPasienActivity"
+            android:label="Pilih Pasien"/>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.PilihPasienCariActivity"
+            android:label="Pilih Pasien"/>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.ta.emilia.kpsp.PeriksaBaruActivity"
+            android:label="Pemeriksaan Baru"/>
     </application>
 
 </manifest>

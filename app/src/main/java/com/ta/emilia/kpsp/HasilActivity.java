@@ -46,12 +46,13 @@ public class HasilActivity extends AppCompatActivity {
         final String id_periksa = getIntent().getStringExtra("key_id_periksa");
         final String id_pasien = getIntent().getStringExtra("key_id_pasien");
         String bulan = getIntent().getStringExtra("key_bulan");
+        final String sesi = getIntent().getStringExtra("key_sesi");
         final String nama = getIntent().getStringExtra("key_nama");
 
         actionBar.setTitle("Hasil:");
         actionBar.setSubtitle(nama);
 
-        new dapatkanHasil(id_periksa, id_pasien, bulan).execute();
+        new dapatkanHasil(id_periksa, id_pasien, bulan, sesi).execute();
 
         txtHasil = (TextView) findViewById(R.id.hasil);
         txtKet = (TextView) findViewById(R.id.ket);
@@ -62,6 +63,7 @@ public class HasilActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(HasilActivity.this, RincianActivity.class);
                 intent.putExtra("key_id_pasien", id_pasien);
+                intent.putExtra("key_sesi", sesi);
                 intent.putExtra("key_nama", nama);
                 startActivity(intent);
             }
@@ -72,7 +74,7 @@ public class HasilActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //buka print
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://203.153.21.11/app/kpsp-emel/api/pdf.php?id_periksa="+id_periksa));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Config.HOST+"pdf.php?id_periksa="+id_periksa));
                 startActivity(browserIntent);
             }
         });
@@ -83,12 +85,13 @@ public class HasilActivity extends AppCompatActivity {
 
         //variabel untuk tangkap data
         private int scs = 0;
-        private String psn, id_periksa, id_pasien, bulan, hasil, ket;
+        private String psn, id_periksa, id_pasien, bulan, hasil, sesi, ket;
 
-        public dapatkanHasil(String id_periksa, String id_pasien, String bulan){
+        public dapatkanHasil(String id_periksa, String id_pasien, String bulan, String sesi){
             this.id_periksa = id_periksa;
             this.id_pasien = id_pasien;
             this.bulan = bulan;
+            this.sesi = sesi;
         }
 
         @Override
@@ -111,7 +114,7 @@ public class HasilActivity extends AppCompatActivity {
                     //convert this HashMap to encodedUrl to send to php file
                     String dataToSend = hashMapToUrl(detail);
                     //make a Http request and send data to php file
-                    String response = Request.post(url+"?id_periksa="+id_periksa+"&id_pasien="+id_pasien+"&bulan="+bulan, dataToSend);
+                    String response = Request.post(url+"?id_periksa="+id_periksa+"&id_pasien="+id_pasien+"&bulan="+bulan+"&sesi="+sesi, dataToSend);
 
                     //dapatkan respon
                     Log.e("Respon", response);

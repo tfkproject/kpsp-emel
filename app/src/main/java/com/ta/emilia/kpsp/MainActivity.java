@@ -75,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
             session.logoutUser();
             finish();
         }
+        if(id_menu == R.id.action_exit){
+            System.exit(0);
+        }
         return super.onOptionsItemSelected(item);
     }
 }

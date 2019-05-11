@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ta.emilia.kpsp.DataDetailActivity;
+import com.ta.emilia.kpsp.PeriksaBaruActivity;
 import com.ta.emilia.kpsp.R;
 import com.ta.emilia.kpsp.model.ItemPemeriksaan;
 
@@ -18,18 +19,18 @@ import java.util.List;
 /**
  * Created by Toshibha on 10/03/2018.
  */
-public class AdapterPemeriksaan extends RecyclerView.Adapter<AdapterPemeriksaan.ViewHolder>{
+public class AdapterPilihPasien extends RecyclerView.Adapter<AdapterPilihPasien.ViewHolder>{
 
     List<ItemPemeriksaan> items;
     Context context;
 
-    public AdapterPemeriksaan(Context context, List<ItemPemeriksaan> items) {
+    public AdapterPilihPasien(Context context, List<ItemPemeriksaan> items) {
         this.context = context;
         this.items = items;
     }
 
     @Override
-    public AdapterPemeriksaan.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AdapterPilihPasien.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_data_pemeriksaan, parent, false);
         return  new ViewHolder(view);
     }
@@ -39,15 +40,9 @@ public class AdapterPemeriksaan extends RecyclerView.Adapter<AdapterPemeriksaan.
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, DataDetailActivity.class);
+                Intent intent = new Intent(context, PeriksaBaruActivity.class);
                 intent.putExtra("key_id_pasien", items.get(position).getId_pasien());
                 intent.putExtra("key_nama", items.get(position).getNama());
-                intent.putExtra("key_tgl_lahir", items.get(position).getTgl_lahir());
-                intent.putExtra("key_jk", items.get(position).getJk());
-                intent.putExtra("key_pddkn", items.get(position).getPddkn());
-                intent.putExtra("key_n_ortu", items.get(position).getN_ortu());
-                intent.putExtra("key_alamat", items.get(position).getAlamat());
-                intent.putExtra("key_tgl_periksa", items.get(position).getTgl_periksa());
                 context.startActivity(intent);
             }
         });

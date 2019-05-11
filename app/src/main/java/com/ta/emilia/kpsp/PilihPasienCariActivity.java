@@ -1,21 +1,17 @@
 package com.ta.emilia.kpsp;
 
 import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.ta.emilia.kpsp.adapter.AdapterPemeriksaan;
+import com.ta.emilia.kpsp.adapter.AdapterPilihPasien;
 import com.ta.emilia.kpsp.model.ItemPemeriksaan;
 import com.ta.emilia.kpsp.util.Config;
 import com.ta.emilia.kpsp.util.Request;
@@ -34,10 +30,10 @@ import java.util.Map;
 /**
  * Created by Toshibha on 30/03/2018.
  */
-public class DataActivity extends AppCompatActivity {
+public class PilihPasienCariActivity extends AppCompatActivity {
 
     List<ItemPemeriksaan> items;
-    AdapterPemeriksaan adapter;
+    AdapterPilihPasien adapter;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     private ProgressDialog pDialog;
@@ -53,7 +49,10 @@ public class DataActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        getSupportActionBar().setTitle("Daftar Pasien");
+        String keyword = getIntent().getStringExtra("key_pencarian");
+
+        getSupportActionBar().setTitle("Cari Pasien");
+        getSupportActionBar().setSubtitle(keyword);
 
         //panggil RecyclerView
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -67,7 +66,7 @@ public class DataActivity extends AppCompatActivity {
         //new ambilData().execute();
 
         //set adapter
-        adapter = new AdapterPemeriksaan(getApplicationContext(), items);
+        adapter = new AdapterPilihPasien(getApplicationContext(), items);
         recyclerView.setAdapter(adapter);
 
     }
@@ -76,13 +75,16 @@ public class DataActivity extends AppCompatActivity {
 
         //variabel untuk tangkap data
         private int scs = 0;
-        private String psn, id_pasien;
+        private String psn, id_pasien, keyword;
 
+        public ambilData(String keyword) {
+            this.keyword = keyword;
+        }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(DataActivity.this);
+            pDialog = new ProgressDialog(PilihPasienCariActivity.this);
             pDialog.setMessage("Loading...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -99,7 +101,7 @@ public class DataActivity extends AppCompatActivity {
                     //convert this HashMap to encodedUrl to send to php file
                     String dataToSend = hashMapToUrl(detail);
                     //make a Http request and send data to php file
-                    String response = Request.post(url, dataToSend);
+                    String response = Request.post(url+"?cari="+keyword, dataToSend);
 
                     //dapatkan respon
                     Log.e("Respon", response);
@@ -171,30 +173,6 @@ public class DataActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_data, menu);
-
-        SearchManager searchManager = (SearchManager) DataActivity.this.getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_cari).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(DataActivity.this.getComponentName()));
-        searchView.setIconifiedByDefault(false);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Intent intent = new Intent(DataActivity.this, DataCariActivity.class);
-                intent.putExtra("key_pencarian", query);
-                startActivity(intent);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                return true;
-
-            }
-
-        });
-
         return true;
     }
 
@@ -211,6 +189,7 @@ public class DataActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         items.clear();
-        new ambilData().execute();
+        String keyword = getIntent().getStringExtra("key_pencarian");
+        new ambilData(keyword).execute();
     }
 }

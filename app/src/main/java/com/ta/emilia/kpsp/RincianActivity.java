@@ -42,6 +42,7 @@ public class RincianActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         String id_pasien = getIntent().getStringExtra("key_id_pasien");
+        String sesi = getIntent().getStringExtra("key_sesi");
         String nama = getIntent().getStringExtra("key_nama");
 
         getSupportActionBar().setTitle("Rincian:");
@@ -59,17 +60,18 @@ public class RincianActivity extends AppCompatActivity {
             }
         });
 
-        new dapatkanRincian(id_pasien).execute();
+        new dapatkanRincian(id_pasien, sesi).execute();
     }
 
     private class dapatkanRincian extends AsyncTask<Void,Void,String> {
 
         //variabel untuk tangkap data
         private int scs = 0;
-        private String psn, id_pasien, jum_ya, jum_tdk;
+        private String psn, id_pasien, jum_ya, jum_tdk, sesi;
 
-        public dapatkanRincian(String id_pasien){
+        public dapatkanRincian(String id_pasien, String sesi){
             this.id_pasien = id_pasien;
+            this.sesi = sesi;
         }
 
         @Override
@@ -92,7 +94,7 @@ public class RincianActivity extends AppCompatActivity {
                     //convert this HashMap to encodedUrl to send to php file
                     String dataToSend = hashMapToUrl(detail);
                     //make a Http request and send data to php file
-                    String response = Request.post(url+"?id_pasien="+id_pasien, dataToSend);
+                    String response = Request.post(url+"?id_pasien="+id_pasien+"&sesi="+sesi, dataToSend);
 
                     //dapatkan respon
                     Log.e("Respon", response);

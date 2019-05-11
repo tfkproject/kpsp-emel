@@ -39,9 +39,10 @@ public class KuesionerActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
 
     private static String url = Config.HOST+"ambilkuesioner.php";
+    private static String url_sesi = Config.HOST+"ambil_sesi_quest.php";
     private static String url_insert_kues = Config.HOST+"insert_kues.php";
 
-    private String bulan;
+    private String bulan, ss;
 
 
     @Override
@@ -68,13 +69,19 @@ public class KuesionerActivity extends AppCompatActivity {
         //set isi kuesioner
         new ambilKues(id_pasien).execute();
 
+        //ambil sesi
+        new ambilSesi(id_pasien).execute();
+
+
         //set adapter
         adapterKuesioner = new AdapterKuesioner(getApplicationContext(), items, new AdapterKuesioner.tombolListener() {
             @Override
             public void onSelected(int position, String id_kuesioner, String jawaban) {
                 //insert tbl_kuespasien
                 //Toast.makeText(KuesionerActivity.this, "ID Kues: "+id_kuesioner + ", ID Client: "+id_pasien+", Jawaban: "+jawaban, Toast.LENGTH_SHORT).show();
-                new insertKues(id_kuesioner, id_pasien, jawaban).execute();
+                int sesi_ = Integer.valueOf(ss) + 1;
+                String sesi = String.valueOf(sesi_);
+                new insertKues(id_kuesioner, id_pasien, jawaban, sesi).execute();
                 items.remove(position);
                 if(items.isEmpty()){
                     pDialog.dismiss();
@@ -83,6 +90,7 @@ public class KuesionerActivity extends AppCompatActivity {
                     intent.putExtra("key_id_periksa", id_periksa);
                     intent.putExtra("key_id_pasien", id_pasien);
                     intent.putExtra("key_bulan", bulan);
+                    intent.putExtra("key_sesi", sesi);
                     intent.putExtra("key_nama", nama);
                     startActivity(intent);
                     finish();
@@ -171,16 +179,76 @@ public class KuesionerActivity extends AppCompatActivity {
 
     }
 
+    private class ambilSesi extends AsyncTask<Void,Void,String> {
+
+        //variabel untuk tangkap data
+        private int scs = 0;
+        private String psn, id_pasien;
+
+        public ambilSesi(String id_pasien){
+            this.id_pasien = id_pasien;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        protected String doInBackground(Void... params) {
+
+            try{
+                //susun parameter
+                HashMap<String,String> detail = new HashMap<>();
+
+                try {
+                    //convert this HashMap to encodedUrl to send to php file
+                    String dataToSend = hashMapToUrl(detail);
+                    //make a Http request and send data to php file
+                    String response = Request.post(url_sesi+"?id_pasien="+id_pasien, dataToSend);
+
+                    //dapatkan respon
+                    Log.e("Respon", response);
+
+                    JSONObject ob = new JSONObject(response);
+                    scs = ob.getInt("success");
+
+                    if (scs == 1) {
+                        ss = ob.getString("sesi");
+                    } else {
+                        // no data found
+                        psn = ob.getString("message");
+                    }
+
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+        }
+
+    }
+
     private class insertKues extends AsyncTask<Void,Void,String> {
 
         //variabel untuk tangkap data
         private int scs = 0;
-        private String psn, id_kues, id_pasien, jawaban;
+        private String psn, id_kues, id_pasien, jawaban, sesi;
 
-        public insertKues(String id_kues, String id_pasien, String jawaban){
+        public insertKues(String id_kues, String id_pasien, String jawaban, String sesi){
             this.id_kues = id_kues;
             this.id_pasien = id_pasien;
             this.jawaban = jawaban;
+            this.sesi = sesi;
         }
 
         @Override
@@ -203,7 +271,7 @@ public class KuesionerActivity extends AppCompatActivity {
                     //convert this HashMap to encodedUrl to send to php file
                     String dataToSend = hashMapToUrl(detail);
                     //make a Http request and send data to php file
-                    String response = Request.post(url_insert_kues+"?id_kues="+id_kues+"&id_pasien="+id_pasien+"&jawaban="+jawaban, dataToSend);
+                    String response = Request.post(url_insert_kues+"?id_kues="+id_kues+"&id_pasien="+id_pasien+"&jawaban="+jawaban+"&sesi="+sesi, dataToSend);
 
                     //dapatkan respon
                     Log.e("Respon", response);
